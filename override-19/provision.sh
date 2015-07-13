@@ -9,12 +9,12 @@ HOST1_ID=$($CLI_COMMAND host list | tail -n 1 | awk '{print $2}')
 HOST0_NAME=$($CLI_COMMAND host $HOST0_ID show name)
 HOST1_NAME=$($CLI_COMMAND host $HOST1_ID show name)
 
-MIDOLMAN1_IP="$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $HOST0_NAME)"
-MIDOLMAN2_IP="$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $HOST1_NAME)"
-
 # restarting midolman to load the configuration changes made by clio
 docker restart $HOST0_NAME
 docker restart $HOST1_NAME
+
+MIDOLMAN1_IP="$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $HOST0_NAME)"
+MIDOLMAN2_IP="$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $HOST1_NAME)"
 
 MIDOLMAN1_CMD="docker exec $HOST0_NAME"
 MIDOLMAN2_CMD="docker exec $HOST1_NAME"
